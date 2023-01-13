@@ -59,7 +59,7 @@ and open the template in the editor.
             let tembusan = document.getElementById("tembusan").value;
             let file = document.getElementById("file").value;
             let ts = document.getElementById("ts").value;
-            let dataText = { id: id, no_surat: no_surat, judul: judul, tembusan: tembusan, file: file, ts:ts };
+            let dataText = { id: id, noSurat: noSurat, judul: judul, tembusan: tembusan, file: file, ts:ts };
             let obj = JSON.stringify(json);
             $.ajax({
                 url: 'http://localhost:8080/PUT',
@@ -101,7 +101,7 @@ and open the template in the editor.
             <tr>
                 <td>No Surat</td>
                 <td>:</td>
-                <td><input type="text" id="no_surat" name="no_surat" /></td>
+                <td><input type="text" id="noSurat" name="noSurat" /></td>
             </tr>
             <tr>
                 <td>Judul</td>

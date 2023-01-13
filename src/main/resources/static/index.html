@@ -5,63 +5,129 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
-        <title>Pengembangan Web Service</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    </head>
-    <body>
-        <h1>Surat</h1>
-        <fieldset>
-            <table> 
-                <legend>Formulir Data Produk</legend>
-                <tr> 
-                    <td>ID</td> 
-                    <td>:</td> 
-                    <td><input type="text" id="id" name="id" /></td> 
-                </tr> 
-                <tr> 
-                    <td>No Surat</td> 
-                    <td>:</td> 
-                    <td><input type="text" id="noSurat" name="noSurat"/></td> 
-                </tr> 
-                <tr> 
-                    <td>Judul</td> 
-                    <td>:</td> 
-                    <td><input type="text" id="judul" name="judul" /></td> 
-                </tr> 
-                <tr> 
-                    <td>Tembusan</td> 
-                    <td>:</td> 
-                    <td><input type="text" id="tembusan" name="tembusan" /></td> 
-                </tr> 
-                <tr> 
-                    <td>File</td> 
-                    <td>:</td> 
-                    <td><input type="file" id="file" name="file" /></td> 
-                </tr> 
-            </table> 
-            <br>
-            <button onclick="get()">GET DATA</button>
-            <button onclick="post()">POST DATA</button>
-            <button onclick="put()">UPDATE DATA</button>
-            <button onclick="del()">DELETE DATA</button>
-        </fieldset>
-        <hr /> 
-        <br /> 
 
-        <table id="mytable" border="1"> 
-            <thead> 
-                <tr> 
-                    <th>ID</th> 
-                    <th>No Surat</th> 
-                    <th>Judul</th> 
-                    <th>Tembusan</th> 
-                    <th>File</th> 
-                    <th>Timestamp</th> 
-                </tr> 
-            </thead> 
+<head>
+    <title>Pengembangan Web Service</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1>Surat</h1>
+    <script>
+        const url = "http://localhost:8080/data";
+
+        //Menampilkan data Surat
+        function get() {
+            let view = document.getElementById("view");
+            $.ajax({
+                url: 'http://localhost:8080/GET',
+                dataType: 'text',
+                success: function (result) {
+                    view.innerHTML = result;
+                }
+            });
+        }
+        //Menambahkan data Surat
+        function post() {
+            let view = document.getElementById("view");
+            let id = document.getElementById("id").value;
+            let noSurat = document.getElementById("noSurat").value;
+            let judul = document.getElementById("judul").value;
+            let tembusan = document.getElementById("tembusan").value;
+            let file = document.getElementById("file").value;
+            let dataText = { id: id, noSurat: noSurat, judul: judul, tembusan: tembusan, file: file};
+            let obj = JSON.stringify(json);
+            $.ajax({
+                url: 'http://localhost:8080/POST',
+                data: obj,
+                method: 'POST',
+                contentType: 'application/json',
+                dataType: 'text',
+                success: function (result) {
+                    view.innerHTML = result;
+                }
+            });
+        }
+        //Mengubah/edit data Surat
+        function put() {
+            let view = document.getElementById("view");
+            let id = document.getElementById("id").value;
+            let noSurat = document.getElementById("noSurat").value;
+            let judul = document.getElementById("judul").value;
+            let tembusan = document.getElementById("tembusan").value;
+            let file = document.getElementById("file").value;
+            let ts = document.getElementById("ts").value;
+            let dataText = { id: id, no_surat: no_surat, judul: judul, tembusan: tembusan, file: file, ts:ts };
+            let obj = JSON.stringify(json);
+            $.ajax({
+                url: 'http://localhost:8080/PUT',
+                data: obj,
+                method: 'PUT',
+                contentType: 'application/json',
+                dataType: 'text',
+                success: function (result) {
+                    view.innerHTML = result;
+                }
+            });
+        }
+        //Menghapus data Surat
+        function del() {
+            let view = document.getElementById("view");
+            let id = document.getElementById("id").value;
+            let json = { "id": id };
+            let obj = JSON.stringify(json);
+            $.ajax({
+                url: 'http://localhost:8080/DELETE',
+                data: obj,
+                method: 'DELETE',
+                contentType: 'application/json',
+                dataType: 'text',
+                success: function (result) {
+                    view.innerHTML = result;
+                }
+            });
+        }
+    </script>
+    <fieldset style="background-color: aquamarine">
+        <table>
+            <legend>Formulir Data Produk</legend>
+            <tr>
+                <td>ID</td>
+                <td>:</td>
+                <td><input type="text" id="id" name="id" /></td>
+            </tr>
+            <tr>
+                <td>No Surat</td>
+                <td>:</td>
+                <td><input type="text" id="no_surat" name="no_surat" /></td>
+            </tr>
+            <tr>
+                <td>Judul</td>
+                <td>:</td>
+                <td><input type="text" id="judul" name="judul" /></td>
+            </tr>
+            <tr>
+                <td>Tembusan</td>
+                <td>:</td>
+                <td><input type="text" id="tembusan" name="tembusan" /></td>
+            </tr>
+            <tr>
+                <td>File</td>
+                <td>:</td>
+                <td><input type="file" id="file" name="file" /></td>
+            </tr>
         </table>
-    </body>
+        <br>
+        <button onclick="get()" style="background-color: pink">GET DATA SURAT</button>
+        <button onclick="post()" style="background-color: plum">POST DATA SURAT</button>
+        <button onclick="put()" style="background-color: lightpink">UPDATE DATA SURAT</button>
+        <button onclick="del()" style="background-color: orchid">DELETE DATA SURAT</button>
+    </fieldset>
+    <hr />
+    <h1>Data Surat</h1>
+    <div id="view"></div>
+</body>
+
 </html>
